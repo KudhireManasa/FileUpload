@@ -1,0 +1,64 @@
+﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@using UploadFileProject.Models
+@model List<FileModel>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+
+    <style>
+        table, td, th {
+            border: 1px solid black;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 75%;
+        }
+
+        th {
+            height: 70px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <form asp-action="Index" asp-controller="Home2" method="post" enctype="multipart/form-data">
+        <centre><h1>*File Upload*</h1></centre>
+        <h1 style="background-color:powderblue; accent-color" Select File</h1>
+        <input type="file" name="postedFiles" multiple />
+        <input type="submit" value="Upload" />
+    </form>
+    <hr />
+    <table cellpadding="0" cellspacing="0" class="table">
+
+        <tr>
+           
+                <th scope="col">File Name</th>
+                <th scope="col">Download</th>
+                <th scope="col">Delete</th>
+            
+        </tr>
+        @foreach (FileModel file in Model)
+        {
+            <tr>
+                <td>@file.Name</td>
+
+                <td><a href='@Url.Action("DownloadFile","Home2", new { fileId = file.Id })'>Download</a></td>
+                <td>@Html.ActionLink("Delete","DELETE","Home2", new {Id =file.Id},  new { onclick = "return confirm('Are sure wants to delete?');" })</td>
+
+            </tr>
+        }
+    </table>
+</body>
+</html>
